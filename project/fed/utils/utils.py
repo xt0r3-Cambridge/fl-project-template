@@ -426,13 +426,20 @@ def get_weighted_avg_metrics_agg_fn(
             [num_examples for num_examples, _ in metrics],
         )
         weighted_metrics: dict = defaultdict(float)
+        max_metrics: dict = defaultdict(float)
         for num_examples, metric in metrics:
             for key, value in metric.items():
                 if key in to_agg:
                     weighted_metrics[key] += num_examples * value
+                if "loss" in key:
+                    max_metrics[f"{key}_max"] = max(value, max_metrics[f"{key}_max"])
 
         return {
-            key: value / total_num_examples for key, value in weighted_metrics.items()
+            **{
+                key: value / total_num_examples
+                for key, value in weighted_metrics.items()
+            },
+            **max_metrics,
         }
 
     return weighted_avg

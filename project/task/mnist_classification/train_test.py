@@ -9,6 +9,8 @@ from pydantic import BaseModel
 from torch import nn
 from torch.utils.data import DataLoader
 
+from hydra.utils import instantiate
+
 from project.task.default.train_test import get_fed_eval_fn as get_default_fed_eval_fn
 from project.task.default.train_test import (
     get_on_evaluate_config_fn as get_default_on_evaluate_config_fn,
@@ -29,6 +31,8 @@ class TrainConfig(BaseModel):
     device: torch.device
     epochs: int
     learning_rate: float
+    scheduler: dict | None = None
+    server_round: int
 
     class Config:
         """Setting to allow any types, including library ones like torch.device."""
@@ -80,9 +84,16 @@ def train(  # pylint: disable=too-many-arguments
     net.train()
 
     criterion = nn.CrossEntropyLoss()
+    scheduler = instantiate(config.scheduler) if config is not None else None
     optimizer = torch.optim.SGD(
         net.parameters(),
-        lr=config.learning_rate,
+        lr=(
+            scheduler.get_lr(
+                init_lr=config.learning_rate, server_round=config.server_round
+            )
+            if scheduler is not None
+            else config.learning_rate
+        ),
         weight_decay=0.001,
     )
 

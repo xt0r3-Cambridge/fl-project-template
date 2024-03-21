@@ -141,7 +141,7 @@ class Client(fl.client.NumPyClient):
         num_samples, metrics = self.train(
             self.net,
             trainloader,
-            config.run_config,
+            config.run_config | config.extra,
             self.working_dir,
             self.rng_tuple,
         )

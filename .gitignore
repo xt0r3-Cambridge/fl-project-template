@@ -1,3 +1,10 @@
+# Wandb cache
+plotting/wandb/*
+plotting/artifacts/*
+
+# Plots
+plotting/plots/*
+
 # Hydra and wanbd outputs
 data
 .vscode

@@ -1,0 +1,11 @@
+---
+name: AFL
+
+init:
+  _target_: project.fed.server.strategy.AFL
+  lambda_learning_rate: 3e-1
+  # TODO: run the learning system with 3e-2
+  # lambda_learning_rate: 3e-2
+  return_lambdas: true
+  return_per_client_loss: true
+  lr_schedule: true

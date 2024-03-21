@@ -2,7 +2,7 @@
 # Federated setup
 num_rounds: 50
 num_total_clients: 10
-num_clients_per_round: 10
+num_clients_per_round: 5
 num_evaluate_clients_per_round: 10
 
 # If clients should be sampled with replacement
@@ -14,7 +14,7 @@ cpus_per_client: 2
 gpus_per_client: 0
 
 # Seed for client selection
-seed: 1337
+seed: 2
 
 # Settings for loading the initial parameters 
 # used by the server

@@ -1,12 +1,3 @@
-"""Optionally define a custom strategy.
-
-Needed only when the strategy is not yet implemented in Flower or because you want to
-extend or modify the functionality of an existing strategy.
-"""
-
-from .afl import AFL
-from .strategy import Strategy
-
 # Copyright 2024 Flower Labs GmbH. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +13,10 @@ from .strategy import Strategy
 # limitations under the License.
 # ==============================================================================
 
+"""Utility functions for the AFL strategy."""
+
+from .project import project_on_simplex
+
 __all__ = [
-    "AFL",
-    "Strategy",
+    "project_on_simplex",
 ]

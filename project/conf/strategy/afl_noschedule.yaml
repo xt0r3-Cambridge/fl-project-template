@@ -1,0 +1,9 @@
+---
+name: AFL
+
+init:
+  _target_: project.fed.server.strategy.AFL
+  lambda_learning_rate: 3e-1
+  return_lambdas: true
+  return_per_client_loss: true
+  lr_schedule: false

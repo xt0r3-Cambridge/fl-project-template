@@ -7,6 +7,7 @@ import json
 import logging
 import re
 import shutil
+from abc import ABC
 from collections.abc import Callable, Iterator
 from itertools import chain, islice
 from pathlib import Path
@@ -19,6 +20,7 @@ import torch
 from flwr.common.logger import log
 from project.fed.utils.utils import Files
 import wandb
+import numpy as np
 from wandb.sdk.wandb_run import Run
 from wandb.sdk.lib.disabled import RunDisabled
 
@@ -577,3 +579,26 @@ class FileSystemManager:
             self.working_dir,
             to_clean=self.to_clean_once,
         )
+
+
+class FLScheduler(ABC):
+    """Base class for a learning rate scheduler inside the framework."""
+
+    def get_lr(self, init_lr: int, server_round: int) -> float:
+        """Return the learning rate for the current server round."""
+        raise NotImplementedError
+
+
+class InverseSqrtScheduler(FLScheduler):
+    """
+    Scheduler.
+
+    Implemets the inverse square-root learning rate decay.
+    """
+
+    def __init__(self) -> None:
+        super().__init__()
+
+    def get_lr(self, init_lr: float, server_round: int) -> float:
+        """Implement the inverse square-root learning rate decay."""
+        return init_lr / np.sqrt(server_round + 1)
