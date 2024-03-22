@@ -18,8 +18,7 @@ fit_config:
     epochs: 1
     # learning_rate: 0.03
     learning_rate: 0.00006
-    scheduler:  # null
-      # _target_: torch.optim.lr_scheduler.LambdaLR
+    scheduler:
       _target_: project.utils.utils.InverseSqrtScheduler
   # No extra config
   extra: {}
